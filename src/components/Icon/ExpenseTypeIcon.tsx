@@ -28,10 +28,10 @@ const ExpenseTypeIcon = ({ type }: Props) => {
 
     return (
         <View
-            className=" flex items-center justify-center w-20 aspect-square bg-white rounded-full "
+            className=" flex items-center justify-center w-24 aspect-square bg-white rounded-full "
         >
             <View
-                className=" -ml-1 "
+                // className=" -ml-1 "
             >
                 {icon(type)}
             </View>

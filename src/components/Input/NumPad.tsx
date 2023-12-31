@@ -1,4 +1,4 @@
-import { Text, TouchableHighlight, View } from "react-native"
+import { Text, TouchableHighlight, Vibration, View } from "react-native"
 import { TextStyle } from "../../styles/TextStyle"
 
 interface props {
@@ -49,15 +49,24 @@ const NumPad = (data: props) => {
                         return (
                             <NumPadItem
                                 key={number}
-                                onPress={() => data.setValue(data.value + number)}
+                                onPress={() => {
+                                    data.setValue(data.value + number)
+                                    Vibration.vibrate(25)
+                                }}
                                 number={number}
                             />
                         )
                     })
                 }
                 <TouchableHighlight
-                    onPress={() => data.setValue(data.value.slice(0, -1))}
-                    onLongPress={() => data.setValue('')}
+                    onPress={() => {
+                        data.setValue(data.value.slice(0, -1))
+                        Vibration.vibrate(35)
+                    }}
+                    onLongPress={() => {
+                        data.setValue('')
+                        Vibration.vibrate(50)
+                    }}
                     className=" w-20 h-20 bg-[#242424] rounded-full items-center justify-center"
                 >
                     <Text

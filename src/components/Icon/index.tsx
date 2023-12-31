@@ -1,4 +1,4 @@
-import { Defs, Image, Path, Pattern, Svg, Use } from "react-native-svg";
+import { Defs, Image, Path, Pattern, Svg, Use, Text as SvgText, TextPath } from "react-native-svg";
 
 export const BtnSide = (props: any) => {
   return (
@@ -768,3 +768,4 @@ export const EntertainmentIcon = (props: any) => {
     </Svg>
   );
 }
+

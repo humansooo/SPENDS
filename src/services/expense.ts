@@ -79,10 +79,10 @@ export const deleteExpense = (dispatch: any, data: {
     id: number,
 }) => {
 
-    console.log(data);
     dispatch(REMOVE_EXPENSE({ id: data.id }));
 
     return {
         status: "success",
+        id: data.id,
     }
 }

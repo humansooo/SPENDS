@@ -5,6 +5,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { ExpenseType, LoanType } from "../../Types";
 import { useSelector } from "react-redux";
 import { expenseSelector } from "../../Features/Expense/ExpenseSlice";
+import { Reverse, getSortedByDate } from "../../utils";
 
 interface Props {
     selected: string,
@@ -59,17 +60,20 @@ const ExpenseList = (prop: Props) => {
 
     const exp = useSelector(expenseSelector)
 
-    console.log(exp)
-
-    const [expenses, setExpenses] = useState(exp)
+    const [expenses, setExpenses] = useState(Reverse(exp))
 
     useEffect(() => {
+        if(!exp) return
+
+        const tem = Reverse(exp)
+
         if (prop.selected === 'All') {
-            setExpenses(exp)
+            setExpenses(tem)
+            // console.log('All', expenses.map(i => new Date(i.created_at).toDateString().split(' ')[2]))
         } else {
-            setExpenses(exp.filter((item) => item.type.toLocaleLowerCase() === prop.selected.toLocaleLowerCase()))
+            setExpenses((tem.filter(i => i.type === prop.selected)))
         }
-    }, [exp, prop.selected])
+    }, [prop.selected, exp])
 
     return (
         <View
