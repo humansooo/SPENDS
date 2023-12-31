@@ -9,6 +9,7 @@ import TextField from "../Input/TextField";
 import { OkIcon } from "../Icon";
 import { useDispatch } from "react-redux";
 import { addExpense } from "../../services/expense";
+import CategorySelector from "./CategorySelector";
 
 interface Props {
     toggle: boolean
@@ -25,12 +26,10 @@ const AddExpenseModal = ({
     const context = useSharedValue({ y: 0 })
 
     const screen_height = Dimensions.get('screen').height;
-    const MAX_TRANSLATE_Y = -screen_height / 1.4;
+    const MAX_TRANSLATE_Y = (-screen_height / 1.4) - 30;
     const MIN_TRANSLATE_Y = 0;
 
-    const setFalse = setTimeout(() => {
-        setToggle(false)
-    }, 10)
+    const [selectorToggle, setSelectorToggle] = useState(false)
 
     const gesture = Gesture.Pan()
         .onStart(() => {
@@ -43,34 +42,48 @@ const AddExpenseModal = ({
             translateY.value = Math.min(translateY.value, MIN_TRANSLATE_Y);
 
             if (translateY.value < -screen_height / 2) {
-                setFalse
+                // setFalse
             }
 
         }).onEnd(() => {
 
-            // console.log('translateY.value', translateY.value, -screen_height / 2)
-
             if (translateY.value < -screen_height / 2) {
 
-                translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 13, velocity: 20, restDisplacementThreshold: 20, overshootClamping: true });
+                translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 15, velocity: 20, restDisplacementThreshold: 20, overshootClamping: true });
 
             }
             else {
-                translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 13, velocity: 20, restDisplacementThreshold: 20, overshootClamping: true });
+                translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 15, velocity: 20, restDisplacementThreshold: 20, overshootClamping: true });
 
             }
         })
 
     useEffect(() => {
-        translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 13 });
+        translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 15 });
     }, [])
 
-    useEffect(() => {
+    const handleToggle = () => {
         if (toggle) {
-            translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 13 });
+            translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 15 });
+            setToggle(false)
+        } else {
+            // translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 15 });
+            // setSelectorToggle(false)
         }
     }
-        , [toggle])
+
+    useEffect(() => {
+        // console.log('toggle + random ', (Math.random() * 100).toFixed(0), toggle, selectorToggle)
+        handleToggle()
+    }, [toggle])
+
+    const handleSelectorToggle = () => {
+        if (!selectorToggle) {
+            translateY.value = withTiming(MAX_TRANSLATE_Y - 130, { duration: 525 });
+        } else {
+            translateY.value = withTiming(MAX_TRANSLATE_Y, { duration: 525 });
+        }
+    }
 
     const style = useAnimatedStyle(() => {
         return { transform: [{ translateY: translateY.value, }] }
@@ -78,7 +91,7 @@ const AddExpenseModal = ({
 
     // values
 
-    const tempTitle= ['food 🥧','Pizza 🍕', 'burger 🍔', 'tea ☕️', 'coffee ☕️','drinks 🍹', 'shopping 🛒', 'movie 🎥', 'rent 🏠', 'car 🚗', 'gas ⛽️', 'travel 🚀', 'gifts 🎁', 'clothes 👕', 'groceries 🛒', 'books 📚', 'medical 🏥', 'pharmacy 💊', 'taxi 🚕', 'pets 🐶', 'sport ⚽️', 'gym 🏋️‍♀️', 'salary 💵', 'bonus 💵', 'presents 🎁', 'other 💰']
+    const tempTitle = ['food 🥧', 'Pizza 🍕', 'burger 🍔', 'tea ☕️', 'coffee ☕️', 'drinks 🍹', 'shopping 🛒', 'movie 🎥', 'rent 🏠', 'car 🚗', 'gas ⛽️', 'travel 🚀', 'gifts 🎁', 'clothes 👕', 'groceries 🛒', 'books 📚', 'medical 🏥', 'pharmacy 💊', 'taxi 🚕', 'pets 🐶', 'sport ⚽️', 'gym 🏋️‍♀️', 'presents 🎁', 'other 💰']
 
     const [title, setTitle] = useState(Math.random() > 0.5 ? tempTitle[Math.floor(Math.random() * tempTitle.length)] : 'food 🥧')
     const [value, setValue] = useState('')
@@ -98,9 +111,17 @@ const AddExpenseModal = ({
     }
 
     useEffect(() => {
-        setTitle(Math.random() > 0.5 ? tempTitle[Math.floor(Math.random() * tempTitle.length)] : 'food 🥧')
+        setTitle(tempTitle[Math.floor(Math.random() * tempTitle.length)])
         setValue('')
-    } , [toggle])
+    }, [toggle])
+
+    const handleAddExpenseBtn = () => {
+        setToggle(false)
+        setSelectorToggle(false)
+        translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 13 })
+        Vibration.vibrate(50)
+        handleAddExpense()
+    }
 
     return (
         <GestureDetector
@@ -113,8 +134,9 @@ const AddExpenseModal = ({
                     backgroundColor: '#202020',
                     position: 'absolute',
                     top: screen_height,
+                    zIndex: 1
                 }, style]}
-                className={' items-center  z-10 rounded-[50px] '}
+                className={' items-center  rounded-[50px] '}
             >
                 <View
                     className={' w-20 h-1 bg-[#aaaaaa] rounded-full top-3 absolute '}
@@ -139,18 +161,21 @@ const AddExpenseModal = ({
                         />
 
                         <TouchableHighlight
-                            onPress={() => {
-                                setToggle(false)
-                                translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 13 });
-                                Vibration.vibrate(50)
-                                handleAddExpense()
-                            }}
+                            onPress={handleAddExpenseBtn}
                             className=" ml-2 bg-[#baffa7] items-center justify-center p-3 rounded-full"
                         >
                             <OkIcon />
                         </TouchableHighlight>
 
                     </View>
+
+                    <CategorySelector
+                        selected={title}
+                        setSelected={setTitle}
+                        selectorToggle={selectorToggle}
+                        setSelectorToggle={setSelectorToggle}
+                        handleSelectorToggle={handleSelectorToggle}
+                    />
 
                     <NumPad
                         open={true}

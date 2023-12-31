@@ -11,7 +11,7 @@ import { PlusIcon } from '../../components/Icon'
 
 const Home = () => {
 
-    const [toggle, setToggle] = React.useState(false)
+    const [toggle, setToggle] = React.useState(true)
     const screen_height = Dimensions.get('screen').height;
 
     return (

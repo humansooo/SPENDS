@@ -1,5 +1,6 @@
 import { Text, TouchableHighlight, Vibration, View } from "react-native"
 import { TextStyle } from "../../styles/TextStyle"
+import { addCommaToNumber } from "../../utils"
 
 interface props {
     value: string
@@ -14,12 +15,13 @@ const NumPad = (data: props) => {
             style={{
                 gap: 12,
                 paddingHorizontal: 20,
+                zIndex: -10,
             }}
             className="flex flex-row flex-wrap justify-center"
         >
 
             <View
-                className=" items-center justify-center z-10 flex-row rounded-[50px]"
+                className=" items-center justify-center flex-row rounded-[50px]"
             >
                 <Text
                     style={[TextStyle.mdBold, { color: '#404040' }]}
@@ -29,7 +31,8 @@ const NumPad = (data: props) => {
                 <Text
                     style={[TextStyle.xlBold, { color: '#fafafa', paddingRight: 20 }]}
                 >
-                    {data.value || <Text
+                    {addCommaToNumber(Number(data.value)) 
+                    || <Text
                         style={[TextStyle.xlBold, { color: '#999999' }]}
                     >0</Text>}
                 </Text>
@@ -50,6 +53,7 @@ const NumPad = (data: props) => {
                             <NumPadItem
                                 key={number}
                                 onPress={() => {
+                                    if(data.value.length > 6) return
                                     data.setValue(data.value + number)
                                     Vibration.vibrate(25)
                                 }}

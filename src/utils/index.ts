@@ -47,3 +47,6 @@ export const daysAgo = (date: string) => {
     const days = Math.floor(diff / (1000 * 3600 * 24))
     return days
 }
+export const addCommaToNumber = (num: number) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

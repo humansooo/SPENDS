@@ -1,6 +1,6 @@
 import { Pressable, Text, TouchableHighlight, Vibration, View } from "react-native";
 import { TextStyle } from "../../styles/TextStyle";
-import { daysAgo, getRotation, getTranslate, randomColor } from "../../utils";
+import { addCommaToNumber, daysAgo, getRotation, getTranslate, randomColor } from "../../utils";
 import { useEffect, useState } from "react";
 import { PlusIcon } from "../Icon";
 import { deleteExpense } from "../../services/expense";
@@ -40,11 +40,11 @@ export default function ExpenseItem(data: Props) {
 
     useEffect(() => {
         if (toggle) {
-            deleteOpacity.value = withTiming(1,{
+            deleteOpacity.value = withTiming(1, {
                 duration: 500
             })
         } else {
-            deleteOpacity.value = withTiming(0,{
+            deleteOpacity.value = withTiming(0, {
                 duration: 500
             })
         }
@@ -65,17 +65,16 @@ export default function ExpenseItem(data: Props) {
                 style={{
                     backgroundColor: randomColor(),
                     borderRadius: 60,
-                    padding: 12,
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
+                    padding: 20,
+                    height: 100,
                 }}
-                className=" h-[80px] flex flex-row justify-between items-center "
+                className=" flex flex-row "
             >
                 <Animated.View
                     style={[{
                         backgroundColor: 'rgba(0,0,0,0.5)',
-                        position: 'absolute', 
-                        
+                        position: 'absolute',
+
                         top: 0,
                         left: 0,
                         bottom: 0,
@@ -105,29 +104,25 @@ export default function ExpenseItem(data: Props) {
                 </Animated.View>
 
                 <View
-                    className=" flex flex-row "
+                    className=" flex-1 flex-row justify-center items-center "
                 >
                     {/* <ExpenseTypeIcon type={data.type} /> */}
 
                     <View
-                        className=" flex flex-col justify-center "
+                        className=" flex flex-row absolute left-2 "
                     >
-                        <View
-                            className=" flex flex-row "
+                        <Text
+                            style={[TextStyle.mdBold, {
+                                // maxWidth: 110,
+                            }]}
                         >
-                            <Text
-                                style={[TextStyle.mdBold, {
-                                    // maxWidth: 110,
-                                }]}
-                            >
-                                {data.amount}
-                            </Text>
+                            {addCommaToNumber(data.amount)}
+                        </Text>
 
-                        </View>
                     </View>
 
                     <View
-                        className=" flex flex-col justify-center ml-4 "
+                        className=" flex flex-col absolute justify-center left-[calc(50%/1.2)] "
                     >
                         <Text
                             style={[TextStyle.mdBold, {

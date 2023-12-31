@@ -15,6 +15,7 @@ const expenseInitState: ExpenseState = {
         'Entertainment',
         'Health',
         'Education',
+        'Shopping',
         'Other',
     ],
 }

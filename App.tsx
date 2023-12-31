@@ -24,7 +24,7 @@ export default function App() {
 
   return (
     <StoreProvider>
-    <StackNav />
+      <StackNav />
     </StoreProvider>
   );
 }
