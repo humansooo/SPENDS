@@ -11,7 +11,7 @@ interface props {
     setSelected: (e: string) => void
     selectorToggle: boolean
     setSelectorToggle: (e: boolean) => void
-    handleSelectorToggle: () => void
+    handleSelectorToggle: (e: any) => void
 }
 
 const CategorySelector = (props: props) => {
@@ -31,7 +31,7 @@ const CategorySelector = (props: props) => {
 
     useEffect(() => {
         if (props.selectorToggle) {
-            animated_height.value = withTiming(150, { duration: 600 })
+            animated_height.value = withTiming(170, { duration: 600 })
         } else {
             animated_height.value = withTiming(30, { duration: 600 })
         }
@@ -62,63 +62,34 @@ const CategorySelector = (props: props) => {
                                 onPress={() => {
                                     props.setSelected(item)
                                     props.setSelectorToggle(false)
-                                    index >= 5 && props.handleSelectorToggle()
+                                    props.handleSelectorToggle(index)
                                 }}
                             />
                         )
                     })
                 }
             </Animated.View>
-            <View
-                style={{
-                    height: 30,
-                    width: Dimensions.get('screen').width - 50,
-                }}
-                pointerEvents='none'
-                className=' transform translate-y-[-30px] mb-[-30px] z-10 '
-            >
-                <LinearGradient
-                    colors={['#ffffff00', '#202020']}
-                pointerEvents='none'
-
-                    style={{
-                        flex: 1,
-                        borderRadius: 5,
-                    }}
-                />
-            </View>
 
             <Pressable
                 onPress={() => {
                     setToggle(!toggle)
-                    props.handleSelectorToggle()
+                    props.handleSelectorToggle(5)
                     props.setSelectorToggle(!props.selectorToggle)
                 }}
                 style={{
                     transform: [{ rotate: toggle ? '-90deg' : '90deg' }]
                 }}
-                className=" items-center justify-center p-4 mt-[-30px] rounded-full"
+                className=" items-center justify-center p-4 mt-[-20px] rounded-full"
             >
                 <Text
                     style={[TextStyle.mdBold, {
                         color: '#ffffff33'
                     }]}
                 >
-                  {'>'}
+                    {'>'}
                 </Text>
             </Pressable>
-
-
-            {/* <CategoryTile
-                title={toggle ? 'less' : 'more'}
-                selected={true}
-                onPress={() => {
-                    setToggle(!toggle)
-                    props.setSelectorToggle(!props.selectorToggle)
-                }}
-            /> */}
-
-
+            
         </View>
     )
 }

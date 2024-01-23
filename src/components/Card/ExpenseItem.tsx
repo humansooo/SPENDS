@@ -104,34 +104,21 @@ export default function ExpenseItem(data: Props) {
                 </Animated.View>
 
                 <View
-                    className=" flex-1 flex-row justify-center items-center "
+                    className=" flex-1 flex-row justify-between px-10 items-center "
                 >
-                    {/* <ExpenseTypeIcon type={data.type} /> */}
+
 
                     <View
-                        className=" flex flex-row absolute left-2 "
-                    >
-                        <Text
-                            style={[TextStyle.mdBold, {
-                                // maxWidth: 110,
-                            }]}
-                        >
-                            {addCommaToNumber(data.amount)}
-                        </Text>
-
-                    </View>
-
-                    <View
-                        className=" flex flex-col absolute justify-center left-[calc(50%/1.2)] "
+                        className=" flex flex-col justify-center "
                     >
                         <Text
                             style={[TextStyle.mdBold, {
                             }]}
                         >
-                            {data.title}
+                            {
+                                daysAgo(data.created_at) === 0 ? 'Today' : daysAgo(data.created_at) === 1 ? 'Yesterday' : `${daysAgo(data.created_at)} days ago`
+                            }
                         </Text>
-
-                        {/* date */}
 
                         <View
                             className=" flex flex-row justify-between"
@@ -141,11 +128,29 @@ export default function ExpenseItem(data: Props) {
                                 style={TextStyle.smLight}
                             >
                                 {
-                                    daysAgo(data.created_at) === 0 ? 'Today' : daysAgo(data.created_at) === 1 ? 'Yesterday' : `${daysAgo(data.created_at)} days ago`
+                                    data.title
                                 }
                             </Text>
 
                         </View>
+                    </View>
+                    <View
+                        className=" flex flex-row justify-center items-center "
+                    >
+                        <Text
+                            style={[TextStyle.sm, { color: '#ffffff99' }]}
+                            className="-mt-1.5"
+                        >
+                            ₹{' '}
+                        </Text>
+                        <Text
+                            style={[TextStyle.mdBold, {
+                                // maxWidth: 110,
+                            }]}
+                        >
+                            {addCommaToNumber(data.amount)}
+                        </Text>
+
                     </View>
 
 

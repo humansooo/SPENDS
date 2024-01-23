@@ -1,6 +1,6 @@
 import { Dimensions, Text, TouchableHighlight, Vibration, View } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { Gesture, GestureDetector, PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { randomColor } from "../../utils";
 import { useEffect, useState } from "react";
 import NumPad from "../Input/NumPad";
@@ -58,6 +58,33 @@ const AddExpenseModal = ({
             }
         })
 
+    const panGestureEvent = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({  // use this for gesture handler
+        onStart: () => {
+            context.value = { y: translateY.value }
+
+        },
+        onActive: (event) => {
+            translateY.value = event.translationY + context.value.y;
+            translateY.value = Math.max(translateY.value, MAX_TRANSLATE_Y);
+            translateY.value = Math.min(translateY.value, MIN_TRANSLATE_Y);
+
+            if (translateY.value < -screen_height / 2) {
+                // setFalse
+            }
+        },
+        onEnd: () => {
+            if (translateY.value < -screen_height / 2) {
+
+                translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 15, velocity: 20, restDisplacementThreshold: 20, overshootClamping: true });
+
+            }
+            else {
+                translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 15, velocity: 20, restDisplacementThreshold: 20, overshootClamping: true });
+
+            }
+        },
+    });
+
     useEffect(() => {
         translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 15 });
     }, [])
@@ -67,19 +94,17 @@ const AddExpenseModal = ({
             translateY.value = withSpring(MAX_TRANSLATE_Y, { damping: 15 });
             setToggle(false)
         } else {
-            // translateY.value = withSpring(MIN_TRANSLATE_Y, { damping: 15 });
-            // setSelectorToggle(false)
         }
     }
 
     useEffect(() => {
-        // console.log('toggle + random ', (Math.random() * 100).toFixed(0), toggle, selectorToggle)
         handleToggle()
     }, [toggle])
 
-    const handleSelectorToggle = () => {
+    const handleSelectorToggle = (i: any) => {
         if (!selectorToggle) {
-            translateY.value = withTiming(MAX_TRANSLATE_Y - 130, { duration: 525 });
+            if (i < 4) return
+            translateY.value = withTiming(MAX_TRANSLATE_Y - 150, { duration: 525 });
         } else {
             translateY.value = withTiming(MAX_TRANSLATE_Y, { duration: 525 });
         }
@@ -124,8 +149,8 @@ const AddExpenseModal = ({
     }
 
     return (
-        <GestureDetector
-            gesture={gesture}
+        <PanGestureHandler
+            onGestureEvent={panGestureEvent}
         >
             <Animated.View
                 style={[{
@@ -185,7 +210,7 @@ const AddExpenseModal = ({
                 </Animated.View>
 
             </Animated.View>
-        </GestureDetector>
+        </PanGestureHandler>
     )
 };
 

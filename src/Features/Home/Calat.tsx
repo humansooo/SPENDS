@@ -21,21 +21,8 @@ export default function HomeCatalog({
             contentContainerStyle={{
                 gap: 12,
                 paddingTop: 50,
-                // paddingBottom: 100,
             }}
         >
-
-            {/* <View
-            >
-                <Text
-                    style={[TextStyle.xlBold]}
-                    className=" mb-0 px-4 text-right"
-                >
-                    spends.
-                </Text>
-            </View> */}
-
-            
 
             <HomeCarousel data={data} selected={selected} onChange={(e) => setSelected(e)} />
 

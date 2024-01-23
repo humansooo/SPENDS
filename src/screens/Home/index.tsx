@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableHighlight, Dimensions, Vibration, VibrationStatic } from 'react-native'
+import { View, Text, TouchableHighlight, Dimensions, Vibration, VibrationStatic, Image } from 'react-native'
 import { Button } from '../../components/Button'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TextStyle } from '../../styles/TextStyle'
@@ -8,6 +8,8 @@ import { HomeCarousel } from '../../components/Carousel'
 import HomeCatalog from '../../Features/Home/Calat'
 import AddExpenseModal from '../../components/Modal/AddExpenseModal'
 import { PlusIcon } from '../../components/Icon'
+
+const addIcon = require('../../../assets/icons/AddIcon.png')
 
 const Home = () => {
 
@@ -31,7 +33,14 @@ const Home = () => {
                     }}
                     className=" scale-[1] bg-[#303030] items-center justify-center bottom-4 right-4 p-6 rounded-full absolute "
                 >
-                    <PlusIcon />
+                    <Image
+                        source={require('../../../assets/icons/AddIcon.png')}
+                        style={{
+                            width: 30,
+                            height: 30,
+                            resizeMode: 'contain',
+                        }}
+                    />
                 </TouchableHighlight>
 
             </SafeAreaView>
