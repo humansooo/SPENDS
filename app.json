@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#151515"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.poorhimanshu.exer"
@@ -28,9 +26,10 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "plugins": ["expo-font"],
     "extra": {
       "eas": {
-        "projectId": "e52cdc8b-7f51-4ef2-829b-e06fae122ddf"
+        "projectId": "dc999d56-5e37-41e8-bdeb-2f95ca311e52"
       }
     }
   }

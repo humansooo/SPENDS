@@ -1,4 +1,13 @@
-import { Defs, Image, Path, Pattern, Svg, Use, Text as SvgText, TextPath } from "react-native-svg";
+import {
+  Defs,
+  Image,
+  Path,
+  Pattern,
+  Svg,
+  Use,
+  Text as SvgText,
+  TextPath,
+} from "react-native-svg";
 
 export const BtnSide = (props: any) => {
   return (
@@ -15,7 +24,7 @@ export const BtnSide = (props: any) => {
       />
     </Svg>
   );
-}
+};
 
 export const FoodIcon = (props: any) => {
   return (
@@ -46,7 +55,7 @@ export const FoodIcon = (props: any) => {
       </Defs>
     </Svg>
   );
-}
+};
 
 export const TravelIcon = (props: any) => {
   return (
@@ -606,7 +615,7 @@ export const TravelIcon = (props: any) => {
       />
     </Svg>
   );
-}
+};
 
 export const PlusIcon = (props: any) => {
   return (
@@ -639,8 +648,8 @@ export const PlusIcon = (props: any) => {
         />
       </Defs>
     </Svg>
-  )
-}
+  );
+};
 
 export const OkIcon = (props: any) => {
   return (
@@ -673,8 +682,8 @@ export const OkIcon = (props: any) => {
         />
       </Defs>
     </Svg>
-  )
-}
+  );
+};
 
 export const ShoppingIcon = (props: any) => {
   return (
@@ -705,7 +714,7 @@ export const ShoppingIcon = (props: any) => {
       </Defs>
     </Svg>
   );
-}
+};
 
 export const HealthIcon = (props: any) => {
   return (
@@ -736,7 +745,7 @@ export const HealthIcon = (props: any) => {
       </Defs>
     </Svg>
   );
-}
+};
 
 export const EntertainmentIcon = (props: any) => {
   return (
@@ -767,5 +776,4 @@ export const EntertainmentIcon = (props: any) => {
       </Defs>
     </Svg>
   );
-}
-
+};

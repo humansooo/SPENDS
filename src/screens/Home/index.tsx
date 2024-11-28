@@ -1,54 +1,61 @@
-import React from 'react'
-import { View, Text, TouchableHighlight, Dimensions, Vibration, VibrationStatic, Image } from 'react-native'
-import { Button } from '../../components/Button'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { TextStyle } from '../../styles/TextStyle'
-import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler'
-import { HomeCarousel } from '../../components/Carousel'
-import HomeCatalog from '../../Features/Home/Calat'
-import AddExpenseModal from '../../components/Modal/AddExpenseModal'
-import { PlusIcon } from '../../components/Icon'
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  Dimensions,
+  Vibration,
+  VibrationStatic,
+  Image,
+} from "react-native";
+import {
+  GestureHandlerRootView,
+  ScrollView,
+} from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const addIcon = require('../../../assets/icons/AddIcon.png')
+import { Button } from "../../components/Button";
+import ExpenseList from "../../components/List/ExpenseList";
+import AddExpenseModal from "../../components/Modal/AddExpenseModal";
+import { TextStyle } from "../../styles/TextStyle";
+
+const addIcon = require("../../../assets/icons/AddIcon.png");
 
 const Home = () => {
+  const [toggle, setToggle] = React.useState(true);
+  const screen_height = Dimensions.get("screen").height;
 
-    const [toggle, setToggle] = React.useState(true)
-    const screen_height = Dimensions.get('screen').height;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaView
+        style={{
+          backgroundColor: "#121212",
+          flex: 1,
+        }}
+      >
+        <ExpenseList />
 
-    return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView
-                style={{
-                    backgroundColor: '#121212',
-                    flex: 1,
-                }}
-            >
-                <HomeCatalog setToggle={setToggle} />
+        <TouchableHighlight
+          onPress={() => {
+            setToggle(!toggle);
+            Vibration.vibrate(25);
+          }}
+          className=" scale-[1] bg-[#303030] items-center justify-center bottom-4 right-4 p-6 rounded-full absolute "
+        >
+          <Image
+            source={require("../../../assets/icons/AddIcon.png")}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: "contain",
+            }}
+          />
+        </TouchableHighlight>
+      </SafeAreaView>
 
-                <TouchableHighlight
-                    onPress={() => {
-                        setToggle(!toggle)
-                        Vibration.vibrate(25)
-                    }}
-                    className=" scale-[1] bg-[#303030] items-center justify-center bottom-4 right-4 p-6 rounded-full absolute "
-                >
-                    <Image
-                        source={require('../../../assets/icons/AddIcon.png')}
-                        style={{
-                            width: 30,
-                            height: 30,
-                            resizeMode: 'contain',
-                        }}
-                    />
-                </TouchableHighlight>
+      <AddExpenseModal toggle={toggle} setToggle={setToggle} />
+    </GestureHandlerRootView>
+  );
+};
 
-            </SafeAreaView>
-
-            <AddExpenseModal toggle={toggle} setToggle={setToggle} />
-
-        </GestureHandlerRootView>
-    )
-}
-
-export default Home
+export default Home;
